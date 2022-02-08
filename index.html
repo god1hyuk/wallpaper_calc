@@ -17,6 +17,15 @@
             padding: 0 10px;
             box-sizing: border-box;
         }
+        input[type="number"]::-webkit-outer-spin-button, 
+        input[type="number"]::-webkit-inner-spin-button { 
+            -webkit-appearance: none; 
+            -moz-appearance: none; 
+            appearance: none; 
+        }
+        input[type=number] { 
+            -moz-appearance: textfield; 
+        }
         button {
             align-self: flex-end;
             width: 130px;
@@ -137,11 +146,11 @@
         <div class="wrapper">
             <div class="inner">
                 <label for="">벽높이(cm)</label>
-                <input id="wallHeight" type="text" placeholder="60cm ~ 350cm" />
+                <input id="wallHeight" type="number" placeholder="60cm ~ 350cm" />
             </div>
             <div class="inner">
                 <label for="">가로길이(cm)</label>
-                <input id="wallWidth" type="text" />
+                <input id="wallWidth" type="number" step="false" />
             </div>
             <button id="calcBtn">calculate</button>
         </div>
@@ -227,7 +236,7 @@
                 alert('정보를 모두 입력해주세요.');
             } else if (!(wallHeight >= 60 && wallHeight <= 350)) {
                 alert('60cm에서 350cm 범위내의 숫자만 입력가능합니다.');
-            } 
+            }
 
         });
 
