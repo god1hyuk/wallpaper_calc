@@ -213,8 +213,10 @@
         const calcBtn = document.querySelector('#calcBtn');
 
         calcBtn.addEventListener('click', () => {
-            const wallHeight = parseInt(document.querySelector('#wallHeight').value);
-            const wallWidth = parseInt(document.querySelector('#wallWidth').value);
+            const wallHeight = Number(document.querySelector('#wallHeight').value);
+            const wallWidth = Number(document.querySelector('#wallWidth').value);
+
+            console.log(wallHeight);
 
             if (wallHeight >= 60 && wallHeight <= 350 && !(isNaN(wallWidth) || isNaN(wallHeight))) {
                 // 입력 값 초기화
