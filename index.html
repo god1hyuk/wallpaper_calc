@@ -207,8 +207,6 @@
             const wallHeight = parseInt(document.querySelector('#wallHeight').value);
             const wallWidth = parseInt(document.querySelector('#wallWidth').value);
 
-            console.log(wallWidth);
-
             if (wallHeight >= 60 && wallHeight <= 350 && !(isNaN(wallWidth) || isNaN(wallHeight))) {
                 document.querySelector('#wallHeight').value = '';
                 document.querySelector('#wallWidth').value = '';
