@@ -207,7 +207,12 @@
             const wallHeight = parseInt(document.querySelector('#wallHeight').value);
             const wallWidth = parseInt(document.querySelector('#wallWidth').value);
 
-            if (wallHeight >= 60 && wallHeight <= 350) {
+            console.log(wallWidth);
+
+            if (wallHeight >= 60 && wallHeight <= 350 && !(isNaN(wallWidth) || isNaN(wallHeight))) {
+                document.querySelector('#wallHeight').value = '';
+                document.querySelector('#wallWidth').value = '';
+
                 document.querySelector('#resultHeight').innerHTML = `<span>${wallHeight + 10}</span>cm`;
                 document.querySelector('#longWidthPaper').innerHTML = `<span>${calcPaper(wallWidth, long)}</span>장`;
                 document.querySelector('#shortWidthPaper').innerHTML = `<span>${calcPaper(wallWidth, short)}</span>장`;
@@ -220,9 +225,12 @@
                     document.querySelector('#shortWidthPaper_m').innerHTML = `<span>${calcPaper(wallWidth, short)}</span>장`;
                     document.querySelector('#silkPaper_m').innerHTML = `<span>${calcPaper(wallWidth, silk)}</span>장`;
                 }
-            } else {
+            } else if (isNaN(wallWidth) || isNaN(wallHeight)) {
+                alert('정보를 모두 입력해주세요.');
+            } else if (!(wallHeight >= 60 && wallHeight <= 350)) {
                 alert('60cm에서 350cm 범위내의 숫자만 입력가능합니다.');
-            }
+            } 
+
         });
 
         // 벽지 계산
