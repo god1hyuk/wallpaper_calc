@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallpaper Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        input {
+            width: 200px;
+            height: 40px;
+            font-size: 18px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        button {
+            align-self: flex-end;
+            width: 130px;
+            height: 40px;
+            font-weight: 700;
+            font-size: 18px;
+            color: #fff;
+            background: sandybrown;
+            border: none; 
+            border-radius: 3px;
+        }
+        label {
+            display: block;
+            font-weight: 900;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .title {
+            background: sienna;
+            padding: 15px 0;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+        }
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            margin-top: 50px;
+            padding: 0 30px;
+        }
+        .wrapper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .inner {
+            margin-right: 15px;
+        }
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+        tbody {
+            width: 100%;
+        }
+        th, td {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            border: 1px solid #d5d5d5;
+        }
+        td {
+            font-weight: 700;
+            font-size: 18px;
+            background: #fff;
+        }
+        table.result_mobile {
+            display: none;
+        }
+        table td span {
+            color: sienna;
+        }
+        table.result_pc th, table.result_pc td {
+            height: 60px;
+        }
+        table tr:nth-child(1) th:first-child {
+            background: #f5f5f5;
+        }
+        table.result_pc tr:nth-child(1) th:not(:first-child),
+        table.result_mobile tr:not(:nth-child(1)) th {
+            background:cornsilk;
+        }
+        table.result_pc tr:nth-child(2) th:first-child,
+        table.result_mobile tr:nth-child(1) th:last-child {
+            background: wheat;
+        }
+        table.result_mobile th,
+        table.result_mobile td {
+            height: 75px;
+        }
+
+        @media (max-width: 640px) {
+            input, button {
+                width: 100%;
+                height: 50px;
+            }
+            button {
+                font-size: 25px;
+            }
+            .container {
+                margin-top: 20px;
+                padding: 0 2.6667vw;
+            }
+            .wrapper {
+                flex-direction: column;
+            }
+            .inner {
+                width: 100%;
+                margin-bottom: 15px;
+                margin-right: 0;
+            }
+            table.result_pc {
+                display: none;
+            }
+            table.result_mobile {
+                display: table;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <h1>Wallpaper Calculator</h1>
+    </div>
+    <div class="container">
+        <div class="wrapper">
+            <div class="inner">
+                <label for="">벽높이(cm)</label>
+                <input id="wallHeight" type="text" placeholder="60cm ~ 350cm" />
+            </div>
+            <div class="inner">
+                <label for="">가로길이(cm)</label>
+                <input id="wallWidth" type="text" />
+            </div>
+            <button id="calcBtn">calculate</button>
+        </div>
+
+        <table class="result_pc">
+            <colgroup>
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+            </colgroup>
+            <tr>
+                <th></th>
+                <th>벽높이</th>
+                <th>장폭벽지(94cm)</th>
+                <th>소폭벽지(53cm)</th>
+                <th>실크벽지(106cm)</th>
+            </tr>
+            <tr>
+                <th>예상소요량</th>
+                <td id="resultHeight"></td>
+                <td id="longWidthPaper"></td>
+                <td id="shortWidthPaper"></td>
+                <td id="silkPaper"></td>
+            </tr>
+        </table>
+
+        <table class="result_mobile">
+            <colgroup>
+                <col width="30%">
+                <col width="70%">
+            </colgroup>
+            <tr>
+                <th></th>
+                <th>예상소요량</th>
+            </tr>
+            <tr>
+                <th>벽높이</th>
+                <td id="resultHeight_m"></td>
+            </tr>
+            <tr>
+                <th>장폭벽지(94cm)</th>
+                <td id="longWidthPaper_m"></td>
+            </tr>
+            <tr>
+                <th>소폭벽지(53cm)</th>
+                <td id="shortWidthPaper_m"></td>
+            </tr>
+            <tr>
+                <th>실크벽지(106cm)</th>
+                <td id="silkPaper_m"></td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        const long = 94; // 장폭벽지
+        const short = 53; // 소폭벽지
+        const silk = 106; // 실크벽지
+        const calcBtn = document.querySelector('#calcBtn');
+
+        calcBtn.addEventListener('click', () => {
+            const wallHeight = parseInt(document.querySelector('#wallHeight').value);
+            const wallWidth = parseInt(document.querySelector('#wallWidth').value);
+
+            if (wallHeight >= 60 && wallHeight <= 350) {
+                document.querySelector('#resultHeight').innerHTML = `<span>${wallHeight + 10}</span>cm`;
+                document.querySelector('#longWidthPaper').innerHTML = `<span>${calcPaper(wallWidth, long)}</span>장`;
+                document.querySelector('#shortWidthPaper').innerHTML = `<span>${calcPaper(wallWidth, short)}</span>장`;
+                document.querySelector('#silkPaper').innerHTML = `<span>${calcPaper(wallWidth, silk)}</span>장`;
+
+                // 모바일
+                if (window.innerWidth <= 640) {
+                    document.querySelector('#resultHeight_m').innerHTML = `<span>${wallHeight + 10}</span>cm`;
+                    document.querySelector('#longWidthPaper_m').innerHTML = `<span>${calcPaper(wallWidth, long)}</span>장`;
+                    document.querySelector('#shortWidthPaper_m').innerHTML = `<span>${calcPaper(wallWidth, short)}</span>장`;
+                    document.querySelector('#silkPaper_m').innerHTML = `<span>${calcPaper(wallWidth, silk)}</span>장`;
+                }
+            } else {
+                alert('60cm에서 350cm 범위내의 숫자만 입력가능합니다.');
+            }
+        });
+
+        // 벽지 계산
+        function calcPaper(width, paper) {
+            const result = width / paper;
+            if (paper == long || paper == short) {
+                return Math.round(result);                
+            } else {
+                return Math.ceil(result);
+            }
+        }
+    </script>
+</body>
+</html>
